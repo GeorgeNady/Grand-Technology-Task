@@ -1,0 +1,138 @@
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
+    id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+}
+
+android {
+    namespace = "dev.george.androidtask"
+    compileSdk = 33
+
+    defaultConfig {
+        applicationId = "dev.george.androidtask"
+        minSdk = 24
+        targetSdk = 33
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += "-Xjvm-default=all" // Only required for 2.x.
+    }
+    bundle {
+        density {
+            enableSplit = false
+        }
+        language {
+            enableSplit = false
+        }
+    }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+}
+
+dependencies {
+
+    implementation("androidx.core:core-ktx:$core_ktx_version")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+
+    // UI
+    implementation("com.google.android.material:material:$material_version")
+    implementation("androidx.constraintlayout:constraintlayout:$constraintlayout_version")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+    implementation("com.leinardi.android:speed-dial:$speed_dial_version")
+    implementation("io.coil-kt:coil:$coil_version")
+    implementation("com.leinardi.android:speed-dial:$fab_speed_dial_version")
+
+    // Coroutine
+    implementation(
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    )
+
+    // Room
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+    androidTestImplementation("androidx.room:room-testing:$room_version")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit2_version")
+    implementation("com.squareup.okhttp:okhttp:2.7.5")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
+    // Activity|Fragment KTX for viewModels()
+    implementation("androidx.activity:activity-ktx:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.5.5")
+
+    //Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+    // ViewModel
+    implementation(
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
+        "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version",
+        // "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version",
+        // "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    )
+    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+    testImplementation("androidx.arch.core:core-testing:$arch_version")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:29.0.4"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+    // Navigation
+    implementation(
+        "androidx.navigation:navigation-fragment-ktx:$nav_version",
+        "androidx.navigation:navigation-ui-ktx:$nav_version"
+    )
+
+    // Gson
+    implementation("com.google.code.gson:gson:2.9.1")
+
+    implementation("com.jakewharton.timber:timber:$timber_version")
+
+    implementation("io.coil-kt:coil:$coil_version")
+
+    // ---------------------------------------------------------------------------------------- TEST
+    // Local Unit Tests
+    testImplementation("junit:junit:$junit_version")
+    testImplementation("org.hamcrest:hamcrest-all:1.3")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("org.robolectric:robolectric:4.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version")
+    testImplementation("com.google.truth:truth:1.1")
+
+    // Instrumented Unit Tests
+    androidTestImplementation("junit:junit:$junit_version")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation("com.google.truth:truth:1.1")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+}
