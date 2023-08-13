@@ -1,7 +1,8 @@
-package dev.george.androidtask
+package dev.george.androidtask.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import dev.george.androidtask.R
 
 class MainActivity : AppCompatActivity() {
 
