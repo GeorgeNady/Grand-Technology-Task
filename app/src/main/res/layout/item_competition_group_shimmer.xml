@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="visibility"
+            type="Boolean" />
+    </data>
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        visibility="@{visibility}"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/screen_to_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvDay"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/day_size"
+                    android:background="@drawable/shimmer_bg"
+                    app:layout_constraintEnd_toStartOf="@id/tvDate"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/content_to_content_margin_small"
+                    android:background="@drawable/shimmer_bg"
+                    android:textSize="@dimen/match_meta_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvDay"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/tvDay"
+                    app:layout_constraintTop_toTopOf="@+id/tvDay" />
+
+            </LinearLayout>
+
+            <include layout="@layout/item_competition_shimmer" />
+
+            <include layout="@layout/item_competition_shimmer" />
+
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</layout>

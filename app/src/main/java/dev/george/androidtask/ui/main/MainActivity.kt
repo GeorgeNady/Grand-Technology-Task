@@ -1,14 +1,20 @@
 package dev.george.androidtask.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import dev.george.androidtask.R
+import dagger.hilt.android.AndroidEntryPoint
+import dev.george.androidtask.base.BaseActivity
+import dev.george.androidtask.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    ActivityMainBinding::inflate
+) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+    override val TAG: String get() = this::class.java.simpleName
+
+    override fun beforeCreateView() {}
+
+    override fun initialization() {}
+
+    override fun setListener() {}
 
 }

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/screen_to_content"
+        android:backgroundTint="@android:color/transparent"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:strokeColor="@color/border_color"
+        app:strokeWidth="@dimen/card_stroke_width">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/card_gradiant_bg"
+                android:paddingHorizontal="@dimen/screen_to_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineCenterLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".65" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineCenterRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".35" />
+
+                <TextView
+                    android:id="@+id/tvMatchStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/match_status_shimmer_bg"
+                    android:paddingHorizontal="@dimen/match_status_padding_horizontal"
+                    android:paddingVertical="@dimen/match_status_padding_vertical"
+                    android:textSize="@dimen/match_status_size"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenterLeft"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenterRight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvMatchDay"
+                    android:layout_width="35dp"
+                    android:background="@drawable/shimmer_bg"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/content_to_content_margin_small"
+                    android:textSize="@dimen/match_meta_size"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenterLeft"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenterRight"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMatchStatus" />
+
+                <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/content_to_content_margin_small"
+                    android:textSize="@dimen/match_score_size"
+                    android:background="@drawable/shimmer_bg"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenterLeft"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenterRight"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMatchDay" />
+
+                <TextView
+                    android:id="@+id/tvHomeTeamName"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/match_team_size"
+                    android:background="@drawable/shimmer_bg"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvScore"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenterRight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvScore" />
+
+                <TextView
+                    android:id="@+id/tvAwayTeamName"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/match_team_size"
+                    android:textStyle="bold"
+                    android:background="@drawable/shimmer_bg"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvScore"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenterLeft"
+                    app:layout_constraintTop_toTopOf="@+id/tvScore" />
+
+                <TextView
+                    android:id="@+id/tvStartedAt"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/content_to_content_margin_medium"
+                    android:textAlignment="center"
+                    android:background="@drawable/shimmer_bg"
+                    android:textColor="@color/text_opacity_6_color"
+                    android:textSize="@dimen/match_meta_size"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenterLeft"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenterRight"
+                    app:layout_constraintTop_toBottomOf="@+id/tvScore" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_stroke_width"
+                    android:layout_marginTop="@dimen/content_to_content_margin_medium"
+                    android:background="@color/border_color"
+                    app:layout_constraintTop_toBottomOf="@id/tvStartedAt"
+                    tools:layout_editor_absoluteX="16dp" />
+
+                <TextView
+                    android:id="@+id/tvLeagueName"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/content_to_content_margin_medium"
+                    android:textSize="@dimen/league_name_size"
+                    android:background="@drawable/shimmer_bg"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineCenterLeft"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenterRight"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                <TextView
+                    android:id="@+id/tvWeek"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/match_meta_size"
+                    android:background="@drawable/shimmer_bg"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLeagueName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineCenterLeft"
+                    app:layout_constraintTop_toTopOf="@+id/tvLeagueName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

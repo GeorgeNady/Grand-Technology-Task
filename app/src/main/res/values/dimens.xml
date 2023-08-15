@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_to_content">16dp</dimen>
+    <dimen name="match_status_padding_vertical">4dp</dimen>
+    <dimen name="match_status_padding_horizontal">32dp</dimen>
+    <dimen name="logo_height">100dp</dimen>
+    <dimen name="card_stroke_width">0.5dp</dimen>
+    <dimen name="match_status_corner_radius">4dp</dimen>
+    <dimen name="content_to_content_margin_small">7dp</dimen>
+    <dimen name="content_to_content_margin_medium">16dp</dimen>
+    <dimen name="match_status_size">8sp</dimen>
+    <dimen name="match_meta_size">10sp</dimen>
+    <dimen name="match_score_size">24sp</dimen>
+    <dimen name="match_team_size">16sp</dimen>
+    <dimen name="league_name_size">12sp</dimen>
+    <dimen name="day_size">15sp</dimen>
+</resources>

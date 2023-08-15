@@ -2,4 +2,22 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="shimmer">#DDDDDD</color>
+
+    <color name="background_color">#201943</color>
+    <color name="text_color">#FFFFFFFF</color>
+    <color name="text_opacity_6_color">#99FFFFFF</color>
+
+    <color name="border_color">#1AF1F1F1</color>
+
+    <!-- match card colors -->
+    <color name="card_gradiant_end_color">#1A808080</color>
+    <color name="card_gradiant_start_color">#1AFFFFFF</color>
+
+    <!-- match status colors -->
+    <color name="finished_match_color">#C79CA6</color>
+    <color name="canceled_match_color">#825B64</color>
+    <color name="live_match_color">#D60133</color>
+    <color name="not_started_match_color">#BD687C</color>
 </resources>

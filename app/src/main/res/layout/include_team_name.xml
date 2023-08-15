@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="teamName"
+            type="String" />
+    </data>
+
+    <TextView
+        android:id="@+id/tvHomeTeamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{teamName}"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/match_team_size"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/tvScore"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineCenterRight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvScore"
+        tools:text="FC BARCELONA" />
+</layout>

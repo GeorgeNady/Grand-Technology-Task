@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bCompetitionGroup"
+            type="dev.george.androidtask.model.domain.CompetitionGroupDomain" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/screen_to_content">
+
+        <TextView
+            android:id="@+id/tvDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{bCompetitionGroup.weekDay}"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/day_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tvDate"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Sunday" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/content_to_content_margin_small"
+            android:text="@{bCompetitionGroup.date}"
+            android:textColor="@color/text_opacity_6_color"
+            android:textSize="@dimen/match_meta_size"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/tvDay"
+            app:layout_constraintTop_toTopOf="@+id/tvDay"
+            tools:text="27 June, 2023" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCompetitionGroups"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDay"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_competition" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
