@@ -1,11 +1,12 @@
 package dev.george.androidtask.ui.main.fragments
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.george.androidtask.model.remote.CompetitionsResponse
+import dev.george.androidtask.model.domain.CompetitionGroupDomain
 import dev.george.androidtask.network.Resource
 import dev.george.androidtask.repository.CompetitionsRepo
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ class CompetitionsViewModel @Inject constructor(
 ) : ViewModel() {
 
     // private
-    private val _competitionsResponseMutableLiveData = MutableLiveData<Resource<CompetitionsResponse>>()
+    private lateinit var _competitionsMutableLiveData: LiveData<Resource<List<CompetitionGroupDomain>>>
 
     init {
         getAllCompetitions()
@@ -26,27 +27,18 @@ class CompetitionsViewModel @Inject constructor(
 
     // public
     // info: first time load the page to show shimmer effect
-    val competitionsLoading = Transformations.map(_competitionsResponseMutableLiveData) {
+    val competitionsLoading = Transformations.map(_competitionsMutableLiveData) {
         it?.status?.isLoading()
     }
 
     // info: list of user repos
-    val competitionsSuccess = Transformations.map(_competitionsResponseMutableLiveData) {
-        it?.data?.asDomainModel()
-    }
+    val competitionsSuccess = Transformations.map(_competitionsMutableLiveData) { it?.data }
+
     // info: when error
-    val competitionsError = Transformations.map(_competitionsResponseMutableLiveData) {
+    val competitionsError = Transformations.map(_competitionsMutableLiveData) {
         if (it?.status?.isError() == true) it.message else null
     }
 
-    private fun getAllCompetitions() = viewModelScope.launch {
-        _competitionsResponseMutableLiveData.value = Resource.loading()
-        try {
-            _competitionsResponseMutableLiveData.value = repo.getAllCompetitions()
-        } catch (e: Exception) {
-            Timber.e("$e")
-            _competitionsResponseMutableLiveData.value = Resource.error("$e")
-        }
-    }
+    private fun getAllCompetitions() = viewModelScope.launch { _competitionsMutableLiveData = repo.getDomainCompetitions() }
 
 }

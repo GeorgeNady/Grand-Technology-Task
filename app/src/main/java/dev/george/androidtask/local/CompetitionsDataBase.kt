@@ -3,10 +3,14 @@ package dev.george.androidtask.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import dev.george.androidtask.model.local.CompetitionsEntity
+import dev.george.androidtask.model.local.CompetitionEntity
+import dev.george.androidtask.model.local.CompetitionsGroupEntity
 
 @Database(
-    entities = [CompetitionsEntity::class],
+    entities = [
+        CompetitionsGroupEntity::class,
+        CompetitionEntity::class
+    ],
     exportSchema = false,
     version = 1
 )

@@ -67,6 +67,32 @@ data class Resource<T>(
             }
         }
     }
+
+    suspend fun suspendedHandler(
+        mLoading: (() -> Unit)? = null,
+        mError: ((String) -> Unit)? = null,
+        mFailed: ((String) -> Unit)? = null,
+        mSuccess: suspend (T) -> Unit,
+    ) {
+        when (this.status) {
+            Status.LOADING -> {
+                mLoading?.let { mLoading() }
+                Timber.d(TAG, "$TAG >>> LOADING")
+            }
+            Status.ERROR -> {
+                mError?.let { mError(message!!) }
+                Timber.d(TAG, "$TAG >>> ERROR $message")
+            }
+            Status.FAILURE -> {
+                mFailed?.let { mFailed(message!!) }
+                Timber.d(TAG, "$TAG >>> FAILURE $message")
+            }
+            Status.SUCCESS -> {
+                mSuccess(data!!)
+                Timber.d(TAG, "$TAG >>> SUCCESS $data")
+            }
+        }
+    }
     /*
     x.handler(
         mLoading = {},

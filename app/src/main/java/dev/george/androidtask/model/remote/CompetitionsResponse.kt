@@ -7,6 +7,9 @@ import dev.george.androidtask.model.domain.CompetitionDomain
 import dev.george.androidtask.model.domain.CompetitionGroupDomain
 import dev.george.androidtask.model.domain.MatchStatusDomain
 import dev.george.androidtask.model.domain.ScoreDomain
+import dev.george.androidtask.model.local.CompetitionEntity
+import dev.george.androidtask.model.local.CompetitionsGroupEntity
+import dev.george.androidtask.model.local.ScoreEntity
 import dev.george.androidtask.util.DateTimeHelper
 import dev.george.androidtask.util.DateTimeHelper.fromDateToLong
 import dev.george.androidtask.util.DateTimeHelper.getDateFromUTCDateFormat
@@ -201,6 +204,24 @@ data class CompetitionsResponse(
             week = matchday/7
         )
 
+        fun asLocalModel() = CompetitionEntity(
+            id = id,
+            status = MatchStatusDomain.statusDomain(status),
+            homeTeam = homeTeam.name,
+            awayTeam = awayTeam.name,
+            score = ScoreEntity(
+                homeScore = score.fullTime.homeTeam,
+                awayScore = score.fullTime.awayTeam
+            ),
+            // TODO:
+            // TODO:
+            // TODO:
+            day = "Tomorrow",
+            time = getTimeFromDate(utcDate),
+            league = baseApplication.getString(R.string.premier_league),
+            week = matchday/7
+        )
+
     }
 
     fun asDomainModel(): List<CompetitionGroupDomain> {
@@ -231,6 +252,39 @@ data class CompetitionsResponse(
             }
 
             competitionGroups.last().competitions.add(matchDomain)
+        }
+
+        return competitionGroups
+    }
+
+    fun asLocalModel(): List<CompetitionsGroupEntity> {
+        val competitionGroups = mutableListOf<CompetitionsGroupEntity>()
+
+        var cachedDate = ""
+
+        matches.forEach { match ->
+
+            val date = getDateFromUTCDateFormat(match.utcDate)
+            val matchLocal = match.asLocalModel()
+
+            Timber.d("""
+                ------------------------------------------------------------
+                CompetitionEntity =>
+                $matchLocal
+            """.trimIndent())
+
+            if (cachedDate != date) {
+                cachedDate = date
+                competitionGroups.add(
+                    CompetitionsGroupEntity(
+                        weekDay = getDayOfWeekFromDate(match.utcDate),
+                        date = getGroupDateFormatFromDate(match.utcDate),
+                        competitions = mutableListOf(),
+                    )
+                )
+            }
+
+            competitionGroups.last().competitions.add(matchLocal)
         }
 
         return competitionGroups
