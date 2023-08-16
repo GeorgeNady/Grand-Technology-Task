@@ -22,23 +22,17 @@ class CompetitionsFragment : BaseFragment<FragmentCompetitionsBinding>() {
         setupRecyclerViews()
         lifecycleOwner = this@CompetitionsFragment
         bViewModel = competitionsViewModel
+        bIsLoading = true
     }
 
-    override fun FragmentCompetitionsBinding.setListener() {}
+    override fun FragmentCompetitionsBinding.setListener() {
+
+    }
 
     override fun FragmentCompetitionsBinding.observers() {
         with(competitionsViewModel) {
-            /*competitionsSuccess.observe(viewLifecycleOwner) {
-                competitionsGroupsAdapter.submitList(it)
-            }
-            competitionsError.observe(viewLifecycleOwner) {
-                it?.let {
-                    Snackbar.make(requireContext(), binding.root, it, Snackbar.LENGTH_LONG).show()
-                }
-            }*/
-
-            // proposal 2
             competitionsLiveData.observe(viewLifecycleOwner) {
+                bIsLoading = it.isNullOrEmpty()
                 competitionsGroupsAdapter.submitList(it)
             }
         }

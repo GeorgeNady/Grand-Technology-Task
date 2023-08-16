@@ -14,11 +14,12 @@ class CompetitionsTypeConverter {
 
     @TypeConverter
     fun fromCompetitions(competitions: MutableList<CompetitionEntity>?): String? =
-        gson.toJson(competitions, competitionListTypeToken)
+        competitions?.let { gson.toJson(it, competitionListTypeToken) }
 
     @TypeConverter
     fun toCompetitions(competitionsStr: String?): MutableList<CompetitionEntity>? =
-        gson.fromJson(competitionsStr, competitionListTypeToken)
+        competitionsStr?.let { gson.fromJson(it, competitionListTypeToken) }
+
 
     @TypeConverter
     fun fromScore(score: ScoreEntity) = gson.toJson(score)

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="screen_to_content">16dp</dimen>
+    <dimen name="screen_to_content_large">64dp</dimen>
     <dimen name="match_status_padding_vertical">4dp</dimen>
     <dimen name="match_status_padding_horizontal">32dp</dimen>
     <dimen name="logo_height">100dp</dimen>

@@ -8,6 +8,10 @@
         <variable
             name="bViewModel"
             type="dev.george.androidtask.ui.main.fragments.CompetitionsViewModel" />
+
+        <variable
+            name="bIsLoading"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,24 +70,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <!--<include
+                    <include
+                        android:id="@+id/rvCompetitionGroupsShimmer"
                         layout="@layout/item_competition_group_shimmer"
                         android:layout_width="match_parent"
+                        app:isVisible="@{bIsLoading}"
                         android:layout_height="match_parent"
-                        app:isVisible="@{bViewModel.competitionsLoading}"
                         android:visibility="gone"
-                        tools:visibility="gone" />-->
+                        tools:visibility="gone" />
 
-                    <!--visibility="@{!bViewModel.competitionsLoading}"-->
-                    <!--android:visibility="gone"-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCompetitionGroups"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
+                        visibility="@{!bIsLoading}"
+                        android:visibility="gone"
                         android:nestedScrollingEnabled="true"
                         android:orientation="vertical"
-                        android:paddingBottom="@dimen/screen_to_content"
+                        android:paddingBottom="@dimen/screen_to_content_large"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="3"
                         tools:listitem="@layout/item_competition_group"
