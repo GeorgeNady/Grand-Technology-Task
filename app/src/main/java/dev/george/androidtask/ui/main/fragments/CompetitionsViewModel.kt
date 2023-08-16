@@ -20,13 +20,17 @@ class CompetitionsViewModel @Inject constructor(
 ) : ViewModel() {
 
     // private
-    // private val _competitionsMutableLiveData get() = repo.liveData
     private val _competitionsMutableLiveData = MutableLiveData<Resource<CompetitionsResponse>>()
 
     init {
-        getRemoteCompetitions()
+        // proposal 1
+        // getRemoteCompetitions()
+
+        // proposal 2
+        refreshCompetitionGroups()
     }
 
+    // proposal 1 [getting data from remote data source]
     val competitionsLoading = Transformations.map(_competitionsMutableLiveData) {
         it?.status?.isLoading() == true
     }
@@ -46,6 +50,17 @@ class CompetitionsViewModel @Inject constructor(
         } catch (e: Exception) {
             _competitionsMutableLiveData.value = Resource.failed(e.toString())
         }
+    }
+
+    /** ## proposal 2
+     * * fetching data from remote data source
+     * * store it into the local data base
+     * * show it as domain model
+     */
+    val competitionsLiveData get() = repo.localCompetitionGroups
+
+    private fun refreshCompetitionGroups() = viewModelScope.launch {
+        repo.refreshCompetitionGroups()
     }
 
 }

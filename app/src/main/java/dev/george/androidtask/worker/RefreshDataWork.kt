@@ -13,8 +13,7 @@ class RefreshDataWork(ctx: Context, params: WorkerParameters): CoroutineWorker(c
 
     override suspend fun doWork(): Result {
         return try {
-            /*repo.deleteAllEntitiesFromTables()
-            repo.refreshImageOfDay()*/
+            repo.refreshCompetitionGroups()
             Result.success()
         } catch (e: Exception) {
             Result.failure()

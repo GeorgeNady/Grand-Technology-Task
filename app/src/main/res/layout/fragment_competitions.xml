@@ -66,24 +66,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <include
+                    <!--<include
                         layout="@layout/item_competition_group_shimmer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:visibility="@{bViewModel.competitionsLoading}"
+                        app:isVisible="@{bViewModel.competitionsLoading}"
                         android:visibility="gone"
-                        tools:visibility="gone" />
+                        tools:visibility="gone" />-->
 
+                    <!--visibility="@{!bViewModel.competitionsLoading}"-->
+                    <!--android:visibility="gone"-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCompetitionGroups"
-                        visibility="@{!bViewModel.competitionsLoading}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
                         android:nestedScrollingEnabled="true"
                         android:orientation="vertical"
                         android:paddingBottom="@dimen/screen_to_content"
-                        android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="3"
                         tools:listitem="@layout/item_competition_group"

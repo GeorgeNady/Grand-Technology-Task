@@ -14,13 +14,13 @@ import dev.george.androidtask.databinding.FragmentCompetitionsBinding
 @SuppressLint("NonConstantResourceId")
 @ActivityFragmentAnnoation(R.layout.fragment_competitions)
 class CompetitionsFragment : BaseFragment<FragmentCompetitionsBinding>() {
-    override val TAG: String get() = this::class.java.simpleName
 
     private val competitionsViewModel by viewModels<CompetitionsViewModel>()
     private val competitionsGroupsAdapter by lazy { CompetitionsGroupsAdapter() }
 
     override fun FragmentCompetitionsBinding.initialization() {
         setupRecyclerViews()
+        lifecycleOwner = this@CompetitionsFragment
         bViewModel = competitionsViewModel
     }
 
@@ -28,13 +28,18 @@ class CompetitionsFragment : BaseFragment<FragmentCompetitionsBinding>() {
 
     override fun FragmentCompetitionsBinding.observers() {
         with(competitionsViewModel) {
-            competitionsSuccess.observe(viewLifecycleOwner) {
+            /*competitionsSuccess.observe(viewLifecycleOwner) {
                 competitionsGroupsAdapter.submitList(it)
             }
             competitionsError.observe(viewLifecycleOwner) {
                 it?.let {
                     Snackbar.make(requireContext(), binding.root, it, Snackbar.LENGTH_LONG).show()
                 }
+            }*/
+
+            // proposal 2
+            competitionsLiveData.observe(viewLifecycleOwner) {
+                competitionsGroupsAdapter.submitList(it)
             }
         }
     }

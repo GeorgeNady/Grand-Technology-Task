@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="visibility"
+            name="isVisible"
             type="Boolean" />
     </data>
 
@@ -14,7 +14,7 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
-        visibility="@{visibility}"
+        visibility="@{isVisible}"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 

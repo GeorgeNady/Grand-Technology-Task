@@ -2,6 +2,7 @@ package dev.george.androidtask.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import dev.george.androidtask.local.CompetitionsDao
 import dev.george.androidtask.model.domain.CompetitionGroupDomain
 import dev.george.androidtask.model.local.CompetitionsGroupEntity
@@ -13,71 +14,37 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-typealias CompetitionGroups = Resource<List<CompetitionGroupDomain>>
-typealias CompetitionGroupsMutableLiveData = MutableLiveData<CompetitionGroups>
-typealias CompetitionGroupsLiveData = LiveData<CompetitionGroups>
+import timber.log.Timber
 
 class CompetitionsRepo @Inject constructor(
     private val competitionsService: CompetitionsService,
     private val dao: CompetitionsDao
 ) : BaseDataSource() {
 
-//    private companion object {
-//        private val repoIOScope = CoroutineScope(Dispatchers.IO)
-//        private val repoMainScope = CoroutineScope(Dispatchers.Main)
-//    }
+    val localCompetitionGroups = Transformations.map(dao.getAllCompetitions()) { list ->
+        list?.map { it.asDomainModel() }
+    }
 
-    // private
-    // private val _liveData = CompetitionGroupsMutableLiveData()
+    suspend fun refreshCompetitionGroups() = withContext(Dispatchers.IO) {
+        Timber.i("refreshCompetitionGroups called")
+        try {
+            // api call
+            Timber.i("refreshCompetitionGroups api call")
+            val response = competitionsService.getAllCompetitions()
 
-//    init {
-//        getDomainCompetitions()
-//    }
+            if (response.isSuccessful) {
+                // store result in the database
+                val localList = response.body()?.asLocalModel() ?: emptyList()
 
-    // public
-    // val liveData : CompetitionGroupsLiveData  get() = _liveData
+                Timber.i("refreshCompetitionGroups delete cached local data")
+                dao.deleteAllCompetitions()
 
-    /*private fun getDomainCompetitions() = repoIOScope.launch {
-        _liveData.value = Resource.loading()
-        val response = getRemoteCompetitions()
-        response.suspendedHandler(
-            mLoading = {
-                repoMainScope.launch {
-                    _liveData.value = Resource.loading()
-                }
-            },
-            mError = {
-                repoMainScope.launch {
-                    responseErrorHandler(
-                        { _liveData.value = Resource.error(it) },
-                        { result -> _liveData.value = Resource.success(result!!) }
-                    )
-                }
-            },
-            mFailed = {
-                repoMainScope.launch {
-                    responseErrorHandler(
-                        { _liveData.value = Resource.failed(it) },
-                        { result -> _liveData.value = Resource.success(result!!) }
-                    )
-                }
+                Timber.i("refreshCompetitionGroups insert new local data")
+                dao.upsertCompetitions(*localList.toTypedArray())
             }
-        ) { res ->
-            insertLocaleCompetitions(*res.asLocalModel().toTypedArray())
-            repoMainScope.launch {
-                _liveData.value = Resource.success(res.asDomainModel())
-            }
-        }
-    }*/
 
-    private fun responseErrorHandler(onError: () -> Unit, onSuccess: (List<CompetitionGroupDomain>?) -> Unit) {
-        val localeData = dao.getAllCompetitions().value
-        if (localeData?.isEmpty() == true) {
-            onError()
-        } else {
-            val domainListData = localeData?.map { entity -> entity.asDomainModel() }
-            onSuccess(domainListData)
+        } catch (e: Exception) {
+            Timber.e("refreshCompetitionGroups $e")
         }
     }
 

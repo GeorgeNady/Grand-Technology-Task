@@ -7,10 +7,6 @@ import java.io.IOException
 
 abstract class BaseDataSource {
 
-    companion object {
-        const val TAG = "BaseDataSource"
-    }
-
     // info : safe api call
     suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Resource<T> {
         try {

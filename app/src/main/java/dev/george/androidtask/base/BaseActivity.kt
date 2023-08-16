@@ -11,7 +11,6 @@ abstract class BaseActivity<B : ViewBinding>(
     val bindingFactory: (LayoutInflater) -> B
 ) : AppCompatActivity() {
 
-    abstract val TAG : String
     val binding: B by lazy { bindingFactory(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

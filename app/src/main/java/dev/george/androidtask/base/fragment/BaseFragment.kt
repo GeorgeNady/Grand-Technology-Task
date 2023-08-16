@@ -21,9 +21,6 @@ import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<T : ViewDataBinding?> : Fragment() {
 
-    @Suppress("PropertyName")
-    abstract val TAG: String
-
     // private
     private var _contentId = 0
     private var _binding: T? = null

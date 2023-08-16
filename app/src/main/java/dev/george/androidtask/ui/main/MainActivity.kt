@@ -9,8 +9,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     ActivityMainBinding::inflate
 ) {
 
-    override val TAG: String get() = this::class.java.simpleName
-
     override fun beforeCreateView() {}
 
     override fun initialization() {}
