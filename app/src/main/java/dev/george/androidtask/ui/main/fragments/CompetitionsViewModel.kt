@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.george.androidtask.model.domain.CompetitionGroupDomain
+import dev.george.androidtask.model.remote.CompetitionsResponse
 import dev.george.androidtask.network.Resource
 import dev.george.androidtask.repository.CompetitionsRepo
 import kotlinx.coroutines.launch
@@ -19,26 +20,32 @@ class CompetitionsViewModel @Inject constructor(
 ) : ViewModel() {
 
     // private
-    private lateinit var _competitionsMutableLiveData: LiveData<Resource<List<CompetitionGroupDomain>>>
+    // private val _competitionsMutableLiveData get() = repo.liveData
+    private val _competitionsMutableLiveData = MutableLiveData<Resource<CompetitionsResponse>>()
 
     init {
-        getAllCompetitions()
+        getRemoteCompetitions()
     }
 
-    // public
-    // info: first time load the page to show shimmer effect
     val competitionsLoading = Transformations.map(_competitionsMutableLiveData) {
-        it?.status?.isLoading()
+        it?.status?.isLoading() == true
     }
 
-    // info: list of user repos
-    val competitionsSuccess = Transformations.map(_competitionsMutableLiveData) { it?.data }
+    val competitionsSuccess = Transformations.map(_competitionsMutableLiveData) {
+        it?.data?.asDomainModel()
+    }
 
-    // info: when error
     val competitionsError = Transformations.map(_competitionsMutableLiveData) {
         if (it?.status?.isError() == true) it.message else null
     }
 
-    private fun getAllCompetitions() = viewModelScope.launch { _competitionsMutableLiveData = repo.getDomainCompetitions() }
+    private fun getRemoteCompetitions() = viewModelScope.launch {
+        _competitionsMutableLiveData.value = Resource.loading()
+        try {
+            _competitionsMutableLiveData.value = repo.getRemoteCompetitions()
+        } catch (e: Exception) {
+            _competitionsMutableLiveData.value = Resource.failed(e.toString())
+        }
+    }
 
 }

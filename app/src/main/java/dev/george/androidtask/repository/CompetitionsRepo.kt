@@ -5,46 +5,71 @@ import androidx.lifecycle.MutableLiveData
 import dev.george.androidtask.local.CompetitionsDao
 import dev.george.androidtask.model.domain.CompetitionGroupDomain
 import dev.george.androidtask.model.local.CompetitionsGroupEntity
-import dev.george.androidtask.model.remote.CompetitionsResponse
 import dev.george.androidtask.network.CompetitionsService
 import javax.inject.Inject
 import dev.george.androidtask.network.BaseDataSource
 import dev.george.androidtask.network.Resource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
+typealias CompetitionGroups = Resource<List<CompetitionGroupDomain>>
+typealias CompetitionGroupsMutableLiveData = MutableLiveData<CompetitionGroups>
+typealias CompetitionGroupsLiveData = LiveData<CompetitionGroups>
 
 class CompetitionsRepo @Inject constructor(
     private val competitionsService: CompetitionsService,
     private val dao: CompetitionsDao
 ) : BaseDataSource() {
 
-    suspend fun getDomainCompetitions(): LiveData<Resource<List<CompetitionGroupDomain>>> {
-        val domain: MutableLiveData<Resource<List<CompetitionGroupDomain>>> = MutableLiveData()
+//    private companion object {
+//        private val repoIOScope = CoroutineScope(Dispatchers.IO)
+//        private val repoMainScope = CoroutineScope(Dispatchers.Main)
+//    }
+
+    // private
+    // private val _liveData = CompetitionGroupsMutableLiveData()
+
+//    init {
+//        getDomainCompetitions()
+//    }
+
+    // public
+    // val liveData : CompetitionGroupsLiveData  get() = _liveData
+
+    /*private fun getDomainCompetitions() = repoIOScope.launch {
+        _liveData.value = Resource.loading()
         val response = getRemoteCompetitions()
         response.suspendedHandler(
             mLoading = {
-                domain.value = Resource.loading()
+                repoMainScope.launch {
+                    _liveData.value = Resource.loading()
+                }
             },
             mError = {
-                responseErrorHandler(
-                    { domain.value = Resource.error(it) },
-                    { result -> domain.value = Resource.success(result!!) }
-                )
+                repoMainScope.launch {
+                    responseErrorHandler(
+                        { _liveData.value = Resource.error(it) },
+                        { result -> _liveData.value = Resource.success(result!!) }
+                    )
+                }
             },
             mFailed = {
-                responseErrorHandler(
-                    { domain.value = Resource.failed(it) },
-                    { result -> domain.value = Resource.success(result!!) }
-                )
+                repoMainScope.launch {
+                    responseErrorHandler(
+                        { _liveData.value = Resource.failed(it) },
+                        { result -> _liveData.value = Resource.success(result!!) }
+                    )
+                }
             }
         ) { res ->
             insertLocaleCompetitions(*res.asLocalModel().toTypedArray())
-            domain.value = Resource.success(res.asDomainModel())
+            repoMainScope.launch {
+                _liveData.value = Resource.success(res.asDomainModel())
+            }
         }
-        return domain
-    }
+    }*/
 
     private fun responseErrorHandler(onError: () -> Unit, onSuccess: (List<CompetitionGroupDomain>?) -> Unit) {
         val localeData = dao.getAllCompetitions().value
@@ -56,12 +81,14 @@ class CompetitionsRepo @Inject constructor(
         }
     }
 
-    private suspend fun getRemoteCompetitions() = safeApiCall { competitionsService.getAllCompetitions() }
+    suspend fun getRemoteCompetitions() = safeApiCall { competitionsService.getAllCompetitions() }
 
     private suspend fun insertLocaleCompetitions(vararg competitionsGroups: CompetitionsGroupEntity) {
-        dao.deleteAllCompetitions()
-        val list = competitionsGroups.asList().toTypedArray()
-        dao.upsertCompetitions(*list)
+        withContext(Dispatchers.IO) {
+            dao.deleteAllCompetitions()
+            val list = competitionsGroups.asList().toTypedArray()
+            dao.upsertCompetitions(*list)
+        }
     }
 
 }
